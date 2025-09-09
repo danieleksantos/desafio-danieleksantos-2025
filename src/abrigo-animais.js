@@ -23,13 +23,11 @@ class AbrigoAnimais {
         });
     });
 
-    // Validar Animais Duplicados
     const animaisUnicos = new Set(ordemAnimaisArray);
     if (animaisUnicos.size !== ordemAnimaisArray.length) {
       return { erro: 'Animal inválido' };
     }
 
-    // Validar Brinquedos Duplicados e Inválidos para a Pessoa 1
     const brinquedosPessoa1Unicos = new Set(brinquedosPessoa1Array);
     const pessoa1TemBrinquedoInvalido = brinquedosPessoa1Array.some(brinquedo => 
         !todosBrinquedosValidos.includes(brinquedo)
@@ -38,7 +36,6 @@ class AbrigoAnimais {
       return { erro: 'Brinquedo inválido' };
     }
 
-    // Validar Brinquedos Duplicados e Inválidos para a Pessoa 2
     const brinquedosPessoa2Unicos = new Set(brinquedosPessoa2Array);
     const pessoa2TemBrinquedoInvalido = brinquedosPessoa2Array.some(brinquedo =>
         !todosBrinquedosValidos.includes(brinquedo)
@@ -71,7 +68,6 @@ class AbrigoAnimais {
       return true;
     }
     
-    // VARIÁVEIS PARA A NOVA LÓGICA
     const adotouGatoPessoa1 = { status: false, brinquedos: new Set() };
     const adotouGatoPessoa2 = { status: false, brinquedos: new Set() };
 
@@ -93,7 +89,6 @@ class AbrigoAnimais {
       let pessoa1Apta = false;
       let pessoa2Apta = false;
 
-      // CHECANDO ELEGIBILIDADE PARA ADOÇÃO DO ANIMAL
       if (animalAtual.nome === 'Loco') {
         const pessoa1TemBrinquedosLoco = animalAtual.brinquedos.every(brinquedo => brinquedosPessoa1Array.includes(brinquedo));
         const pessoa2TemBrinquedosLoco = animalAtual.brinquedos.every(brinquedo => brinquedosPessoa2Array.includes(brinquedo));
@@ -115,7 +110,6 @@ class AbrigoAnimais {
         }
       }
       
-      // NOVA LÓGICA PARA A REGRA DE GATOS
       if (pessoa1Apta && adotouGatoPessoa1.status && animalAtual.tipo !== 'gato') {
           const brinquedosUsados = new Set(animalAtual.brinquedos);
           const conflito = Array.from(adotouGatoPessoa1.brinquedos).some(brinquedoGato => brinquedosUsados.has(brinquedoGato));
@@ -127,7 +121,6 @@ class AbrigoAnimais {
           if (conflito) pessoa2Apta = false;
       }
       
-      // DECISÃO DE ADOÇÃO
       if (pessoa1Apta && pessoa2Apta) {
         listaFinal.push(`${nomeAnimal} - abrigo`);
       } else if (pessoa1Apta) {
